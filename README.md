@@ -13,3 +13,10 @@ docker run -d --name db-for-mangosteen -e POSTGRES_USER=mangosteen -e POSTGRES_P
 ```
 docker start db-for-mangosteen
 ```
+
+### 配置 gem 和 bundle 源
+
+```
+gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+bundle config mirror.https://rubygems.org https://gems.ruby-china.com
+```
