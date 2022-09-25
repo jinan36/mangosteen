@@ -85,7 +85,6 @@ GEM
     irb (1.4.1)
       reline (>= 0.3.0)
     json (2.6.2)
-    kwalify (0.7.2)
     loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -151,15 +150,11 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
-    reek (6.1.1)
-      kwalify (~> 0.7.0)
-      parser (~> 3.1.0)
-      rainbow (>= 2.0, < 4.0)
     regexp_parser (2.5.0)
     reline (0.3.1)
       io-console (~> 0.5)
     rexml (3.2.5)
-    rubocop (1.36.0)
+    rubocop (1.35.1)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.1.2.1)
@@ -171,7 +166,13 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.21.0)
       parser (>= 3.1.1.0)
+    rubocop-performance (1.14.3)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
     ruby-progressbar (1.11.0)
+    standard (1.16.1)
+      rubocop (= 1.35.1)
+      rubocop-performance (= 1.14.3)
     strscan (3.0.4)
     thor (1.2.1)
     timeout (0.3.0)
@@ -192,8 +193,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.2, >= 7.0.2.3)
-  reek
-  rubocop
+  standard
   tzinfo-data
 
 RUBY VERSION
