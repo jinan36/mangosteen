@@ -41,7 +41,7 @@ else
 fi
 
 title 'docker build'
-docker build $root -t mangosteen:$version
+docker build $root -t mangosteen:$version --label "mangosteen"
 
 if [ "$(docker ps -aq -f name=^mangosteen-prod$)" ]; then
   title 'docker rm'
@@ -57,6 +57,8 @@ docker run -d -p 3000:3000 \
            -e RAILS_MASTER_KEY=$RAILS_MASTER_KEY \
            mangosteen:$version
 
+echo 'docker image prune'
+yes | docker image prune -a --filter="label=mangosteen"
 echo
 echo "是否要更新数据库？[y/N]"
 read ans
