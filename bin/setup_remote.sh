@@ -28,6 +28,7 @@ set_env RAILS_MASTER_KEY
 title '创建数据库'
 if [ "$(docker ps -aq -f name=^${DB_HOST}$)" ]; then
   echo '已存在数据库'
+  docker start $DB_HOST
 else
   docker run -d --name $DB_HOST \
             --network=network1 \
