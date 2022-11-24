@@ -3,6 +3,8 @@ require "rspec_api_documentation/dsl"
 
 resource "验证码" do
   post "api/v1/validation_codes" do
+    header "Content-Type", "application/json"
+
     # This is manual way to describe complex parameters
     parameter :email, type: :string
 
