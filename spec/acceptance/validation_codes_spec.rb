@@ -8,13 +8,13 @@ resource "验证码" do
     # This is manual way to describe complex parameters
     parameter :email, type: :string
 
-    let(:email) { "test@gmail.com" }
+    let(:email) { "a492073467@gmail.com" }
 
     example "发送验证码" do
+      expect(UserMailer).to receive(:welcome_email).with(email)
       do_request
-
       expect(status).to eq 200
-      expect(response_body).to eq ' '
+      expect(response_body).to eq " "
     end
   end
 end
