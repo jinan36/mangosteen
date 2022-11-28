@@ -36,8 +36,9 @@ gem "bootsnap", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem "rack-cors"
 
-gem 'kaminari'
-gem 'rspec_api_documentation', git: "https://github.com/zipmark/rspec_api_documentation.git", branch: 'master'
+gem "kaminari"
+gem "rspec_api_documentation", git: "https://github.com/zipmark/rspec_api_documentation.git", branch: 'master'
+gem "jwt"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
