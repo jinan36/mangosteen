@@ -36,6 +36,28 @@ RSpec.describe "Items", type: :request do
       expect(json["resources"][0]["id"]).to eq item1.id
       expect(json["resources"][1]["id"]).to eq item2.id
     end
+    it "按时间筛选（只传起始时间）" do
+      Item.create amount: 100, created_at: "2017-12-31"
+      item1 = Item.create amount: 100, created_at: "2018-01-01"
+      item2 = Item.create amount: 100, created_at: "2019-01-01"
+      get "/api/v1/items?created_after=2018-01-01"
+      expect(response).to have_http_status 200
+      json = JSON.parse(response.body)
+      expect(json["resources"].size).to eq 2
+      expect(json["resources"][0]["id"]).to eq item1.id
+      expect(json["resources"][1]["id"]).to eq item2.id
+    end
+    it "按时间筛选（只传结束时间）" do
+      item1 = Item.create amount: 100, created_at: "2018-01-01"
+      item2 = Item.create amount: 100, created_at: "2019-01-01"
+      Item.create amount: 100, created_at: "2019-01-02"
+      get "/api/v1/items?created_before=2019-01-01"
+      expect(response).to have_http_status 200
+      json = JSON.parse(response.body)
+      expect(json["resources"].size).to eq 2
+      expect(json["resources"][0]["id"]).to eq item1.id
+      expect(json["resources"][1]["id"]).to eq item2.id
+    end
   end
   describe "create" do
     it "can create an item" do
