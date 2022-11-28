@@ -39,11 +39,11 @@ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
 - [ ] get /tags/:id
 
-- [-] post /validation_codes
+- [x] post /validation_codes
 
-- [-] post /session
+- [x] post /session
 
 - [ ] delete /session
 
-- [-] get /me
+- [x] get /me
 
