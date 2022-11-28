@@ -20,3 +20,30 @@ docker start db-for-mangosteen
 gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
 bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 ```
+
+## TODO
+
+- [ ] post /items
+
+- [ ] get /items?page&create_after&created_before
+
+- [ ] get /items/summary?&create_after&created_before
+
+- [ ] get /tags?page
+
+- [ ] patch /tags/:id
+
+- [ ] delete /tags/:id
+
+- [ ] post /tags
+
+- [ ] get /tags/:id
+
+- [-] post /validation_codes
+
+- [-] post /session
+
+- [ ] delete /session
+
+- [-] get /me
+
