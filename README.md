@@ -33,7 +33,7 @@ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
 - [x] patch /tags/:id
 
-- [ ] delete /tags/:id
+- [x] delete /tags/:id
 
 - [x] post /tags
 

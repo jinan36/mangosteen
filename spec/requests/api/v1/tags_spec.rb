@@ -91,4 +91,32 @@ RSpec.describe "Tags", type: :request do
       expect(response).to have_http_status 403
     end
   end
+
+  describe "删除标签" do
+    it "未登录删除" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id
+
+      delete "/api/v1/tags/#{tag.id}"
+      expect(response).to have_http_status 401
+    end
+    it "删除自己的标签" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id
+
+      delete "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
+      expect(response).to have_http_status 200
+      tag.reload
+      expect(tag.deleted_at).not_to eq nil
+    end
+    it "删除不属于自己的标签" do
+      current_user = User.create email: "1@qq.com"
+      other_user = User.create email: "2@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: other_user.id
+
+      delete "/api/v1/tags/#{tag.id}", headers: current_user.generate_auth_header
+      expect(response).to have_http_status 403
+      expect(tag.deleted_at).to eq nil
+    end
+  end
 end
