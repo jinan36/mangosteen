@@ -25,7 +25,7 @@ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
 - [ ] post /items
 
-- [ ] get /items?page&create_after&created_before
+- [x] get /items?page&create_after&created_before
 
 - [ ] get /items/summary?&create_after&created_before
 
@@ -45,5 +45,5 @@ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
 - [ ] delete /session
 
-- [x] get /me
+- [ ] get /me
 
