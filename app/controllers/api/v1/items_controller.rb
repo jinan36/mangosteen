@@ -5,14 +5,13 @@ class Api::V1::ItemsController < ApplicationController
 
     items = Item.where({user_id: current_user_id})
       .where({created_at: params[:created_after]..params[:created_before]})
-      .page(params[:page])
 
     render json: {
-      resources: items,
+      resources: items.page(params[:page]),
       pager: {
         page: params[:page] || 1,
         per_page: Item.default_per_page,
-        count: Item.count
+        count: items.count
       }
     }
   end
