@@ -88,12 +88,24 @@ RSpec.describe "Items", type: :request do
       user = User.create email: "1@qq.com"
 
       expect {
-        post("/api/v1/items", params: {amount: 100}, headers: user.generate_auth_header)
+        post("/api/v1/items", params: {amount: 100, tags_id: [1, 2], happen_at: "2018-01-01T00:00:00+08:00"}, headers: user.generate_auth_header)
       }.to change { Item.count }.by 1
       expect(response).to have_http_status 200
       json = JSON.parse(response.body)
+      expect(json["resource"]["id"]).to be_a Numeric
       expect(json["resource"]["user_id"]).to eq user.id
       expect(json["resource"]["amount"]).to eq 100
+      expect(json["resource"]["happen_at"]).to eq "2017-12-31T16:00:00.000Z"
+    end
+    it "amount、tags_id、happen_at 必填" do
+      user = User.create email: "1@qq.com"
+
+      post("/api/v1/items", params: {}, headers: user.generate_auth_header)
+      expect(response).to have_http_status 422
+      json = JSON.parse(response.body)
+      expect(json["errors"]["amount"][0]).to eq "can't be blank"
+      expect(json["errors"]["tags_id"][0]).to eq "can't be blank"
+      expect(json["errors"]["happen_at"][0]).to eq "can't be blank"
     end
   end
 end
