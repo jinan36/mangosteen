@@ -91,6 +91,22 @@ RSpec.describe "Tags", type: :request do
       patch "/api/v1/tags/#{tag.id}", params: {name: "tag_modify", sign: "y"}, headers: current_user.generate_auth_header
       expect(response).to have_http_status 403
     end
+    it "修改已删除和不存在的标签" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id, deleted_at: Time.now
+
+      patch "/api/v1/tags/#{tag.id}", params: {name: "tag_modify", sign: "y"}, headers: user.generate_auth_header
+      expect(response).to have_http_status 404
+
+      patch "/api/v1/tags/#{tag.id}", params: {name: "tag_modify", sign: "y"}, headers: user.generate_auth_header
+      expect(response).to have_http_status 404
+    end
+    it "修改不存在的标签" do
+      user = User.create email: "1@qq.com"
+
+      patch "/api/v1/tags/1", params: {name: "tag_modify", sign: "y"}, headers: user.generate_auth_header
+      expect(response).to have_http_status 404
+    end
   end
 
   describe "删除标签" do
@@ -100,6 +116,12 @@ RSpec.describe "Tags", type: :request do
 
       delete "/api/v1/tags/#{tag.id}"
       expect(response).to have_http_status 401
+    end
+    it "删除不存在的标签" do
+      user = User.create email: "1@qq.com"
+
+      delete "/api/v1/tags/1", headers: user.generate_auth_header
+      expect(response).to have_http_status 404
     end
     it "删除自己的标签" do
       user = User.create email: "1@qq.com"
@@ -119,6 +141,15 @@ RSpec.describe "Tags", type: :request do
       expect(response).to have_http_status 403
       expect(tag.deleted_at).to eq nil
     end
+    it "删除已删除的标签" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id, deleted_at: Time.now
+
+      delete "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
+      expect(response).to have_http_status 200
+      tag.reload
+      expect(tag.deleted_at).not_to eq nil
+    end
   end
 
   describe "获取单个标签" do
@@ -133,6 +164,13 @@ RSpec.describe "Tags", type: :request do
       user = User.create email: "1@qq.com"
 
       get "/api/v1/tags/1", headers: user.generate_auth_header
+      expect(response).to have_http_status 404
+    end
+    it "获取已删除的标签" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id, deleted_at: Time.now
+
+      get "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
       expect(response).to have_http_status 404
     end
     it "获取自己的标签" do

@@ -24,7 +24,8 @@ class Api::V1::TagsController < ApplicationController
   end
 
   def update
-    tag = Tag.find params[:id]
+    tag = Tag.find_by(id: params[:id], deleted_at: nil)
+    return render status: :not_found if tag.nil?
     return render status: :forbidden if tag.user_id != request.env["current_user_id"]
 
     tag.update params.permit(:name, :sign)
@@ -36,7 +37,9 @@ class Api::V1::TagsController < ApplicationController
   end
 
   def destroy
-    tag = Tag.find params[:id]
+    tag = Tag.find_by(id: params[:id])
+    return render status: :not_found if tag.nil?
+    return render status: :ok if !tag.deleted_at.nil?
     return render status: :forbidden if tag.user_id != request.env["current_user_id"]
 
     tag.deleted_at = Time.now
@@ -48,11 +51,8 @@ class Api::V1::TagsController < ApplicationController
   end
 
   def show
-    tag = begin
-      Tag.find params[:id]
-    rescue
-      return render status: :not_found
-    end
+    tag = Tag.find_by(id: params[:id], deleted_at: nil)
+    return render status: :not_found if tag.nil?
 
     return render status: :forbidden if tag.user_id != request.env["current_user_id"]
     render json: {resource: tag}, status: :ok
