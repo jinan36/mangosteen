@@ -7,6 +7,26 @@ resource "标签" do
   let(:auth) { "Bearer #{current_user.generate_jwt}" }
   header "Content-Type", "application/json"
 
+  get "api/v1/tags/:id" do
+    let(:tag) { Tag.create name: "tag", sign: "x", user_id: current_user.id }
+    let(:id) { tag.id }
+    with_options scope: :resource do
+      response_field :id, "ID"
+      response_field :name, "标签名"
+      response_field :sign, "emoji 符号"
+      response_field :user_id, "用户 ID"
+      response_field :deleted_at, "删除时间"
+    end
+    example "获取单个标签" do
+      do_request
+      expect(status).to eq 200
+      json = JSON.parse response_body
+      expect(json["resource"]["id"]).to eq id
+      expect(json["resource"]["name"]).to eq tag.name
+      expect(json["resource"]["sign"]).to eq tag.sign
+    end
+  end
+
   get "api/v1/tags" do
     parameter :page, "页码"
     with_options scope: :resources do

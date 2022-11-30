@@ -119,4 +119,39 @@ RSpec.describe "Tags", type: :request do
       expect(tag.deleted_at).to eq nil
     end
   end
+
+  describe "获取单个标签" do
+    it "未登录获取" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id
+
+      get "/api/v1/tags/#{tag.id}"
+      expect(response).to have_http_status 401
+    end
+    it "获取不存在的标签" do
+      user = User.create email: "1@qq.com"
+
+      get "/api/v1/tags/1", headers: user.generate_auth_header
+      expect(response).to have_http_status 404
+    end
+    it "获取自己的标签" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id
+
+      get "/api/v1/tags/#{tag.id}", headers: user.generate_auth_header
+      expect(response).to have_http_status 200
+      json = JSON.parse response.body
+      expect(json["resource"]["id"]).to eq tag.id
+      expect(json["resource"]["name"]).to eq "tag"
+      expect(json["resource"]["sign"]).to eq "x"
+    end
+    it "获取不属于自己的标签" do
+      current_user = User.create email: "1@qq.com"
+      other_user = User.create email: "2@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: other_user.id
+
+      get "/api/v1/tags/#{tag.id}", headers: current_user.generate_auth_header
+      expect(response).to have_http_status 403
+    end
+  end
 end

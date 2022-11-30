@@ -109,22 +109,73 @@ table th, table td {
       <h1>标签 API</h1>
 
       <div class="article">
-        <h2>删除标签</h2>
-        <h3>DELETE api/v1/tags/:id</h3>
+        <h2>获取单个标签</h2>
+        <h3>GET api/v1/tags/:id</h3>
 
 
+          <h3>Response Fields</h3>
+          <table class="response-fields table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    <span class="name">resource[id]</span>
+                </td>
+                <td>
+                  <span class="description">ID</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">resource[name]</span>
+                </td>
+                <td>
+                  <span class="description">标签名</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">resource[sign]</span>
+                </td>
+                <td>
+                  <span class="description">emoji 符号</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">resource[user_id]</span>
+                </td>
+                <td>
+                  <span class="description">用户 ID</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">resource[deleted_at]</span>
+                </td>
+                <td>
+                  <span class="description">删除时间</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
           <h3>Request</h3>
 
             <h4>Headers</h4>
             <pre class="request headers">Version: HTTP/1.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1NjYsImV4cCI6MTY2OTgwMDE0N30.ByruqzMb9jXce-ioCoECQl5ydeJVnFLuzz5TyTE1Uuc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1NjEsImV4cCI6MTY2OTgwMDE0N30.ZJIW9-ljXbXOIbVdfYEiaM3QbTHU6n_G_nGVNuqF1_c
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">DELETE api/v1/tags/1793</pre>
+          <pre class="request route highlight">GET api/v1/tags/1770</pre>
 
 
 
@@ -137,16 +188,26 @@ X-Content-Type-Options: nosniff
 X-Download-Options: noopen
 X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
-Content-Type: text/plain; charset=utf-8
-ETag: W/&quot;36a9e7f1c95b82ffb99743e0c5c4ce95&quot;
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;fab1d2a2271aba52d7bfa12495cb1813&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 56a4daee-93db-48af-919d-e49054fe2571
-X-Runtime: 0.005493
-Content-Length: 1</pre>
+X-Request-Id: ae3fbb2b-c0f8-4f01-9e27-02e134651bf4
+X-Runtime: 0.004705
+Content-Length: 160</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
-              <pre class="response body"> </pre>
+              <pre class="response body">{
+  &quot;resource&quot;: {
+    &quot;id&quot;: 1770,
+    &quot;user_id&quot;: 561,
+    &quot;name&quot;: &quot;tag&quot;,
+    &quot;sign&quot;: &quot;x&quot;,
+    &quot;deleted_at&quot;: null,
+    &quot;created_at&quot;: &quot;2022-11-30T07:22:27.664Z&quot;,
+    &quot;updated_at&quot;: &quot;2022-11-30T07:22:27.664Z&quot;
+  }
+}</pre>
       </div>
     </div>
   </body>
