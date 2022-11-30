@@ -37,7 +37,7 @@ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
 - [x] post /tags
 
-- [ ] get /tags/:id
+- [x] get /tags/:id
 
 - [x] post /validation_codes
 
