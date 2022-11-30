@@ -54,4 +54,41 @@ RSpec.describe "Tags", type: :request do
       expect(json["errors"]["sign"][0]).to eq "can't be blank"
     end
   end
+  describe "修改标签" do
+    it "未登录修改" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id
+
+      patch "/api/v1/tags/#{tag.id}", params: {name: "tag_modify", sign: "y"}
+      expect(response).to have_http_status 401
+    end
+    it "修改自己的标签" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id
+
+      patch "/api/v1/tags/#{tag.id}", params: {name: "tag_modify", sign: "y"}, headers: user.generate_auth_header
+      expect(response).to have_http_status 200
+      json = JSON.parse response.body
+      expect(json["resource"]["name"]).to eq "tag_modify"
+      expect(json["resource"]["sign"]).to eq "y"
+    end
+    it "部分修改自己的标签" do
+      user = User.create email: "1@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: user.id
+
+      patch "/api/v1/tags/#{tag.id}", params: {name: "tag_modify"}, headers: user.generate_auth_header
+      expect(response).to have_http_status 200
+      json = JSON.parse response.body
+      expect(json["resource"]["name"]).to eq "tag_modify"
+      expect(json["resource"]["sign"]).to eq "x"
+    end
+    it "修改不属于自己的标签" do
+      current_user = User.create email: "1@qq.com"
+      other_user = User.create email: "2@qq.com"
+      tag = Tag.create name: "tag", sign: "x", user_id: other_user.id
+
+      patch "/api/v1/tags/#{tag.id}", params: {name: "tag_modify", sign: "y"}, headers: current_user.generate_auth_header
+      expect(response).to have_http_status 403
+    end
+  end
 end
