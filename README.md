@@ -29,13 +29,13 @@ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
 - [ ] get /items/summary?&create_after&created_before
 
-- [ ] get /tags?page
+- [x] get /tags?page
 
-- [ ] patch /tags/:id
+- [x] patch /tags/:id
 
 - [ ] delete /tags/:id
 
-- [ ] post /tags
+- [x] post /tags
 
 - [ ] get /tags/:id
 
