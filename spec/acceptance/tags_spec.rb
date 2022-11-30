@@ -1,26 +1,26 @@
 require "rails_helper"
 require "rspec_api_documentation/dsl"
 
-resource "账目" do
-  get "api/v1/items" do
+resource "标签" do
+  get "api/v1/tags" do
     authentication :basic, :auth
     parameter :page, "页码"
-    parameter :created_after, "创建时间起点"
-    parameter :created_before, "创建时间终点"
     with_options scope: :resources do
       response_field :id, "ID"
-      response_field :amount, "金额（单位：分）"
+      response_field :name, "标签名"
+      response_field :sign, "emoji 符号"
+      response_field :user_id, "用户 ID"
+      response_field :deleted_at, "删除时间"
     end
 
-    let(:created_after) { "2020-10-10" }
-    let(:created_before) { "2022-11-11" }
     let(:current_user) { User.create email: "1@qq.com" }
     let(:auth) { "Bearer #{current_user.generate_jwt}" }
-    example "获取账目" do
+    example "获取标签" do
       user = User.create email: "2@qq.com"
-      9.times { Item.create amount: 100, created_at: "2021-11-11", user_id: user.id }
+      9.times { |i| Tag.create name: "tag#{i}", sign: "x", user_id: user.id }
 
-      11.times { Item.create amount: 100, created_at: "2021-11-11", user_id: current_user.id }
+      11.times { |i| Tag.create name: "tag#{i}", sign: "x", user_id: current_user.id }
+
       do_request
       expect(status).to eq 200
       json = JSON.parse response_body
