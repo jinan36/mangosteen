@@ -27,7 +27,7 @@ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
 - [x] get /items?page&create_after&created_before
 
-- [ ] get /items/summary?&create_after&created_before
+- [x] get /items/summary?&happened_after&happened_before
 
 - [x] get /tags?page
 
