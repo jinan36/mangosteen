@@ -18,9 +18,9 @@ resource "账目" do
     let(:auth) { "Bearer #{current_user.generate_jwt}" }
     example "获取账目" do
       user = User.create email: "2@qq.com"
-      9.times { Item.create amount: 100, created_at: "2021-11-11", user_id: user.id }
+      9.times { Item.create amount: 100, tags_id: [1], happen_at: Time.now, created_at: "2021-11-11", user_id: user.id }
 
-      11.times { Item.create amount: 100, created_at: "2021-11-11", user_id: current_user.id }
+      11.times { Item.create amount: 100, tags_id: [1], happen_at: Time.now, created_at: "2021-11-11", user_id: current_user.id }
       do_request
       expect(status).to eq 200
       json = JSON.parse response_body
