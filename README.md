@@ -23,7 +23,7 @@ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 
 ## TODO
 
-- [ ] post /items
+- [x] post /items
 
 - [x] get /items?page&create_after&created_before
 

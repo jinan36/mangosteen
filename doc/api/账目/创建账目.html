@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>标签 API</title>
+    <title>账目 API</title>
     <meta charset="utf-8">
     <style>
       
@@ -106,11 +106,11 @@ table th, table td {
   </head>
   <body>
     <div class="container">
-      <h1>标签 API</h1>
+      <h1>账目 API</h1>
 
       <div class="article">
-        <h2>修改标签</h2>
-        <h3>PATCH api/v1/tags/:id</h3>
+        <h2>创建账目</h2>
+        <h3>POST api/v1/items</h3>
 
           <h3>Parameters</h3>
           <table class="parameters table table-striped table-bordered table-condensed">
@@ -122,19 +122,35 @@ table th, table td {
             </thead>
             <tbody>
               <tr>
-                <td>
-                    <span class="name">name</span>
+                <td class="required">
+                    <span class="name">amount</span>
                 </td>
                 <td>
-                  <span class="description">标签名</span>
+                  <span class="description">金额（单位：分）</span>
                 </td>
               </tr>
               <tr>
-                <td>
-                    <span class="name">sign</span>
+                <td class="required">
+                    <span class="name">kind</span>
                 </td>
                 <td>
-                  <span class="description">emoji 表情</span>
+                  <span class="description">类型</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="required">
+                    <span class="name">happen_at</span>
+                </td>
+                <td>
+                  <span class="description">发生时间</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="required">
+                    <span class="name">tags_id</span>
+                </td>
+                <td>
+                  <span class="description">标签 id</span>
                 </td>
               </tr>
             </tbody>
@@ -159,34 +175,34 @@ table th, table td {
               </tr>
               <tr>
                 <td>
-                    <span class="name">resource[name]</span>
+                    <span class="name">resource[amount]</span>
                 </td>
                 <td>
-                  <span class="description">标签名</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                    <span class="name">resource[sign]</span>
-                </td>
-                <td>
-                  <span class="description">emoji 符号</span>
+                  <span class="description">金额（单位：分）</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">resource[user_id]</span>
+                    <span class="name">resource[kind]</span>
                 </td>
                 <td>
-                  <span class="description">用户 ID</span>
+                  <span class="description">类型</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">resource[deleted_at]</span>
+                    <span class="name">resource[happen_at]</span>
                 </td>
                 <td>
-                  <span class="description">删除时间</span>
+                  <span class="description">发生时间</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">resource[tags_id]</span>
+                </td>
+                <td>
+                  <span class="description">标签 id</span>
                 </td>
               </tr>
             </tbody>
@@ -196,17 +212,17 @@ table th, table td {
 
             <h4>Headers</h4>
             <pre class="request headers">Version: HTTP/1.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5OTMsImV4cCI6MTY2OTg3MzQwNX0.J9o7Fv3UxoG8UHUp0_DuKzGoTsrRpG5S2Fkl07RBPl0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5ODcsImV4cCI6MTY2OTg3MzQwNX0.J2UvW2lBWOOclfmAe9qyf7UhhNICVF71CGCTbspLp8U
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">PATCH api/v1/tags/1231</pre>
+          <pre class="request route highlight">POST api/v1/items</pre>
 
 
             <h4>Body</h4>
-            <pre class="request body">{"name":"tag_modify","sign":"y"}</pre>
+            <pre class="request body">{"amount":9900,"kind":"expenses","happen_at":"2020-10-30T00:00:00+08:00","tags_id":[1207,1208]}</pre>
 
 
             <h3>Response</h3>
@@ -218,23 +234,28 @@ X-Download-Options: noopen
 X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;74557222b19f8ea045f9dcc13eee8c1d&quot;
+ETag: W/&quot;6110ce4a3394c8dc5fd4f33432c54d4a&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 7f7349dd-803a-423d-a6c5-82d7c65211d8
-X-Runtime: 0.006052
-Content-Length: 167</pre>
+X-Request-Id: 514a6f13-3ade-4347-aed3-2318ded03984
+X-Runtime: 0.005437
+Content-Length: 222</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
               <pre class="response body">{
   &quot;resource&quot;: {
-    &quot;name&quot;: &quot;tag_modify&quot;,
-    &quot;sign&quot;: &quot;y&quot;,
-    &quot;id&quot;: 1231,
-    &quot;user_id&quot;: 993,
-    &quot;deleted_at&quot;: null,
-    &quot;created_at&quot;: &quot;2022-12-01T03:43:25.508Z&quot;,
-    &quot;updated_at&quot;: &quot;2022-12-01T03:43:25.515Z&quot;
+    &quot;id&quot;: 640,
+    &quot;user_id&quot;: 987,
+    &quot;amount&quot;: 9900,
+    &quot;note&quot;: null,
+    &quot;tags_id&quot;: [
+      1207,
+      1208
+    ],
+    &quot;happen_at&quot;: &quot;2020-10-29T16:00:00.000Z&quot;,
+    &quot;created_at&quot;: &quot;2022-12-01T03:43:25.368Z&quot;,
+    &quot;updated_at&quot;: &quot;2022-12-01T03:43:25.368Z&quot;,
+    &quot;kind&quot;: &quot;expenses&quot;
   }
 }</pre>
       </div>
