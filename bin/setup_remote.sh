@@ -1,16 +1,18 @@
 user=mangosteen
 root=/home/$user/deploys/$version
-container_name=mangosteen-prod
+container_name=mangosteen-prod-1
 db_container_name=db-for-mangosteen
 
 function set_env {
   name=$1
+  hint=$2
+  [[ ! -z "${!name}" ]] && return
   while [ -z "${!name}" ]; do
-    echo "> 请输入 $name:"
+    [[ ! -z "$hint" ]] && echo "> 请输入 $name: $hint" || echo "> 请输入 $name:" 
     read $name
-    sed -i "1s/^/export $name=${!name}\n/" ~/.bashrc
-    echo "${name} 已保存至 ~/.bashrc"
   done
+  sed -i "1s/^/export $name=${!name}\n/" ~/.bashrc
+  echo "${name} 已保存至 ~/.bashrc"
 }
 function title {
   echo 
@@ -23,12 +25,11 @@ function title {
 title '设置远程机器的环境变量'
 set_env DB_HOST
 set_env DB_PASSWORD
-set_env RAILS_MASTER_KEY
+set_env RAILS_MASTER_KEY '请将 config/credentials/production.key 的内容复制到这里'
 
 title '创建数据库'
 if [ "$(docker ps -aq -f name=^${DB_HOST}$)" ]; then
   echo '已存在数据库'
-  docker start $DB_HOST
 else
   docker run -d --name $DB_HOST \
             --network=network1 \
@@ -42,9 +43,9 @@ else
 fi
 
 title 'docker build'
-docker build $root -t mangosteen:$version --label "mangosteen"
+docker build $root -t mangosteen:$version
 
-if [ "$(docker ps -aq -f name=^mangosteen-prod$)" ]; then
+if [ "$(docker ps -aq -f name=^mangosteen-prod-1$)" ]; then
   title 'docker rm'
   docker rm -f $container_name
 fi
@@ -58,8 +59,6 @@ docker run -d -p 3000:3000 \
            -e RAILS_MASTER_KEY=$RAILS_MASTER_KEY \
            mangosteen:$version
 
-echo 'docker image prune'
-yes | docker image prune -a --filter="label=mangosteen"
 echo
 echo "是否要更新数据库？[y/N]"
 read ans
