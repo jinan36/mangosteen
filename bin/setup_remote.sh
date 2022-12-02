@@ -1,6 +1,6 @@
 user=mangosteen
 root=/home/$user/deploys/$version
-container_name=mangosteen-prod-1
+container_name=mangosteen-prod
 db_container_name=db-for-mangosteen
 
 function set_env {
@@ -30,6 +30,7 @@ set_env RAILS_MASTER_KEY '请将 config/credentials/production.key 的内容复�
 title '创建数据库'
 if [ "$(docker ps -aq -f name=^${DB_HOST}$)" ]; then
   echo '已存在数据库'
+  docker start $db_container_name
 else
   docker run -d --name $DB_HOST \
             --network=network1 \
@@ -45,7 +46,7 @@ fi
 title 'docker build'
 docker build $root -t mangosteen:$version
 
-if [ "$(docker ps -aq -f name=^mangosteen-prod-1$)" ]; then
+if [ "$(docker ps -aq -f name=^mangosteen-prod$)" ]; then
   title 'docker rm'
   docker rm -f $container_name
 fi

@@ -1,7 +1,7 @@
 root=mangosteen_deploy 
 version=$(cat $root/version)
 
-container_name=mangosteen-prod-1
+container_name=mangosteen-prod
 db_container_name=db-for-mangosteen
 
 DB_HOST=$db_container_name
@@ -49,7 +49,7 @@ fi
 title 'docker build'
 docker build $root -t mangosteen:$version
 
-if [ "$(docker ps -aq -f name=^mangosteen-prod-1$)" ]; then
+if [ "$(docker ps -aq -f name=^mangosteen-prod$)" ]; then
   title 'docker rm'
   docker rm -f $container_name
 fi
