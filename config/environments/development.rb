@@ -38,10 +38,10 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    address: "smtp.qq.com",
     port: 587,
-    domain: "smtp.gmail.com",
-    user_name: "zhuangjinan2018@gmail.com",
+    domain: "smtp.qq.com",
+    user_name: "492073467@qq.com",
     password: Rails.application.credentials.email_password,
     authentication: "plain",
     enable_starttls_auto: true,
