@@ -10,7 +10,7 @@ resource "会话" do
     let(:email) { "test@qq.com" }
     let(:code) { "123456" }
 
-    example "发送验证码" do
+    example "登录" do
       do_request
       expect(status).to eq 200
       json = JSON.parse response_body
