@@ -11,10 +11,9 @@ resource "验证码" do
     let(:email) { "a492073467@gmail.com" }
 
     example "发送验证码" do
-      expect(UserMailer).to receive(:welcome_email).with(email)
+      expect(UserMailer).to receive(:welcome_email).with(email).and_call_original
       do_request
       expect(status).to eq 200
-      expect(response_body).to eq " "
     end
   end
 end
